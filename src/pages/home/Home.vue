@@ -13,7 +13,13 @@
     <div class="home-nav">
       <div class="nav-list-wrap" v-show="isShowMenu">
         <ul class="nav-list" ref="navRef">
-          <li class="nav-item" v-for="(channel,index) in channels" :key="index" @click="changeChannel(index)">
+          <li 
+            class="nav-item" 
+            :class="{active:currentIndex === index}" 
+            v-for="(channel,index) in channels" 
+            :key="index" 
+            @click="changeChannel(index)"
+          >
             <a href="javascript:">{{channel}}</a>
           </li>
         </ul>
@@ -24,7 +30,13 @@
           全部频道
         </div>
         <div class="nav-menu-content" ref="menuRef">
-          <div class="menu-item" v-for="(channel,index) in channels" :key="index" @click="changeChannel(index)">{{channel}}</div>
+          <div 
+            class="menu-item" 
+            :class="{active:currentIndex === index}" 
+            v-for="(channel,index) in channels" 
+            :key="index" 
+            @click="changeChannel(index)"
+          >{{channel}}</div>
         </div>
       </div>
       
@@ -144,6 +156,8 @@
   import Swiper from "swiper"
   import "swiper/css/swiper.min.css"
   import BScroll from '@better-scroll/core'
+
+  import { reqHomeData } from "../../api";
   
   import FirstFloor from "./components/FirstFloor";
   import SecendFloor from "./components/SecendFloor";
@@ -161,11 +175,19 @@
   export default {
     data (){
       return {
+        currentIndex:0,
         isShowMenu:true,
         channels:['推荐','居家生活','服饰鞋包','美食酒水','个护清洁','母婴亲子','运动旅行','数码家电','全球特色']
       }
     },
-    mounted (){
+    async mounted (){
+
+      const result = await reqHomeData()
+      if(result.code === 0){
+        console.log('数据太多，不会用')
+      }
+
+
       new Swiper('.home-swiper-container',{
         loop:true,
         autoplay:true,
@@ -185,16 +207,9 @@
         this.isShowMenu = !this.isShowMenu
       },
       changeChannel(index){
-        this.toggleActive(Array.from(this.$refs.navRef.children),index)
-        this.toggleActive(Array.from(this.$refs.menuRef.children),index)
+        this.currentIndex = index
         const x = 44 + 10*index + 72*(index-1)
         this.navScroll.scrollTo(-x)
-      },
-      toggleActive (nodeArr,index){
-        nodeArr.forEach(item => {
-          item.classList.remove('active')
-        })
-        nodeArr[index].classList.add('active')
       }
     },
     components:{

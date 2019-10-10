@@ -1,10 +1,10 @@
 import Home from "../pages/home/Home.vue";
 import Category from "../pages/category/Category.vue";
+import CategoryDetail from "../pages/category/CategoryDetail.vue";
 import Goods from "../pages/goods/Goods.vue";
 import ShopCart from "../pages/shopCart/ShopCart.vue";
 import Personal from "../pages/personal/Personal.vue";
 import Search from "../pages/home/Search.vue";
-
 
 export default [
   {
@@ -13,7 +13,17 @@ export default [
   },
   {
     path: '/category',
-    component: Category
+    component: Category,
+    children:[
+      {
+        path: '/category/category_detail/:id',
+        component: CategoryDetail
+      },
+      {
+        path: '/category',
+        redirect: '/category/category_detail/1022001'
+      }
+    ]
   },
   {
     path: '/goods',

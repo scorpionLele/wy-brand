@@ -1,23 +1,23 @@
 <template>
   <div id="footer" v-if="notShowPath.indexOf($route.path) === -1">
     <ul class="footer-list">
-      <li class="footer-item" :class="{active:$route.path === '/home'}" @click="goto('home')">
+      <li class="footer-item" :class="{active:$route.path === '/home'}" @click="goto('/home')">
         <i class="icon"></i>
         <span>首页</span>
       </li>
-      <li class="footer-item" :class="{active:$route.path === '/category'}" @click="goto('category')">
+      <li class="footer-item" :class="{active:$route.path.indexOf('/category') !== -1}" @click="goto('/category')">
         <i class="icon"></i>
         <span>分类</span>
       </li>
-      <li class="footer-item" :class="{active:$route.path === '/goods'}" @click="goto('goods')">
+      <li class="footer-item" :class="{active:$route.path === '/goods'}" @click="goto('/goods')">
         <i class="icon"></i>
         <span>识物</span>
       </li>
-      <li class="footer-item" :class="{active:$route.path === '/shopCart'}" @click="goto('shopCart')">
+      <li class="footer-item" :class="{active:$route.path === '/shopCart'}" @click="goto('/shopCart')">
         <i class="icon"></i>
         <span>购物车</span>
       </li>
-      <li class="footer-item" :class="{active:$route.path === '/personal'}" @click="goto('personal')">
+      <li class="footer-item" :class="{active:$route.path === '/personal'}" @click="goto('/personal')">
         <i class="icon"></i>
         <span>个人</span>
       </li>

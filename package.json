@@ -16,6 +16,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "lib-flexible": "^0.3.2",
+    "mockjs": "^1.0.1-beta3",
     "postcss-px2rem": "^0.3.0",
     "px2rem-loader": "^0.1.9",
     "stylus": "^0.54.7",
@@ -43,7 +44,9 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
+    "rules": {
+      "no-console":"off"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
