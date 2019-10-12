@@ -5,10 +5,10 @@
         <div class="swiper-container detail-swiper-container">
           <div class="swiper-wrapper detail-swiper-wrapper">
             <div class="swiper-slide detail-swiper-slide">
-              <img :src="category.bannerUrl">
+              <img v-lazy="category.bannerUrl">
             </div>
             <div class="swiper-slide detail-swiper-slide">
-              <img :src="category.wapBannerUrl">
+              <img v-lazy="category.wapBannerUrl">
             </div>
           </div>
           <div class="swiper-pagination detail-swiper-pagination"></div>
@@ -17,7 +17,7 @@
       <div class="detail-list">
         <ul>
           <li class="detail--item" v-for="(subCate,index) in category.subCateList" :key="index">
-            <img :src="subCate.bannerUrl">
+            <img v-lazy="subCate.bannerUrl">
             <p>{{subCate.name}}</p>
           </li>
         </ul>

@@ -25,6 +25,8 @@
   @import '../../common/stylus/mixins.less';
   #header-wrapper{
     width: 100%;
+    position: fixed;
+    z-index: 99;
     .header{
       .border-bottom-1px(#d9d9d9);
       position: relative;

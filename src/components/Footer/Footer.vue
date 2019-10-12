@@ -9,7 +9,7 @@
         <i class="icon"></i>
         <span>分类</span>
       </li>
-      <li class="footer-item" :class="{active:$route.path === '/goods'}" @click="goto('/goods')">
+      <li class="footer-item" :class="{active:$route.path.indexOf('/goods') !== -1}" @click="goto('/goods')">
         <i class="icon"></i>
         <span>识物</span>
       </li>

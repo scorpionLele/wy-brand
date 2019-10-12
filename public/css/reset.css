@@ -95,8 +95,9 @@ ul,
 ol {
   list-style: none;
 }
-input {
+input,button {
   outline: none;
+  border: none;
 }
 table {
   border-collapse: collapse;

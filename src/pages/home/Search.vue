@@ -4,33 +4,60 @@
       <form action="">
         <div class="input-wrap">
           <i class="icon"></i>
-          <input type="text" placeholder="网易味央黑猪肉礼盒 限时85折">
+          <input type="text" :placeholder="inputData.keyword" @input="searchAutoComplete" v-model="keyword">
         </div>
       </form>
       <div class="cancle" @click="$router.back()">取消</div>
     </header>
-    <div class="search-content">
+    <div class="search-content" v-if="showMenu">
       <h2 class="search-title">热门搜索</h2>
       <div class="search-menu">
-        <a href="javascript:">免洗面膜仅49.9</a>
-        <a href="javascript:" class="active">早秋服饰</a>
-        <a href="javascript:">超薄纸尿裤</a>
-        <a href="javascript:" class="active">金秋大闸蟹</a>
-        <a href="javascript:">爆款 行李箱</a>
-        <a href="javascript:">床垫</a>
-        <a href="javascript:">996五宝茶</a>
-        <a href="javascript:">内裤</a>
-        <a href="javascript:">女鞋</a>
-        <a href="javascript:">锅</a>
-        <a href="javascript:">耳机</a>
-        <a href="javascript:">手机壳</a>
+        <a href="javascript:" :class="{active:item.highlight === 1}" v-for="(item,index) in menuList">{{item.keyword}}</a>
       </div>
     </div>
+    <ul class="searchList" v-else>
+      <li class="searchItem" v-for="(searchItem,index) in searchList">{{searchItem}}</li>
+    </ul>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import { reqSearchData,reqSearchAutoComplete } from "../../api";
   export default {
+    data (){
+      return {
+        keyword:'',
+        inputData:{},
+        menuList:[],
+        showMenu:true,
+        searchList:[]
+      }
+    },
+    async mounted (){
+      const result = await reqSearchData()
+      this.inputData = result.data.defaultKeyword
+      this.menuList = result.data.hotKeywordVOList
+    },
+    methods:{
+      searchAutoComplete (event){
+        if(event.target.value){
+          this.showMenu = false
+        }else{
+          this.showMenu = true
+        }
+        if(this.timer){
+          clearTimeout(this.timer)
+        }
+        
+        this.timer = setTimeout(async ()=>{
+          const result = await reqSearchAutoComplete(event.target.value)
+          if(result.code === "200"){
+            this.searchList = result.data
+          }
+        },1000)
+        
+      }
+    }
   }
 </script>
 
@@ -94,8 +121,8 @@
         a{
           height: 45px;
           line-height: 45px;
-          padding: 0 15px;
-          margin-right: 32px;
+          padding: 0 10px;
+          margin-right: 25px;
           margin-bottom: 32px;
           border: 2px solid #999;
           border-radius: 6px;
@@ -106,6 +133,18 @@
             color: #b4282d;
           }
         }
+      }
+    }
+    .searchList{
+      width: 100%;
+      padding-left: 30px;
+      box-sizing: border-box;
+      .searchItem{
+        width: 100%;
+        height: 90px;
+        line-height: 90px;
+        font-size: 28px;
+        color: #333;
       }
     }
   }

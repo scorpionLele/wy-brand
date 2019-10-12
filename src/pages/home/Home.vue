@@ -16,11 +16,11 @@
           <li 
             class="nav-item" 
             :class="{active:currentIndex === index}" 
-            v-for="(channel,index) in channels" 
+            v-for="(kingKong,index) in kingKongList" 
             :key="index" 
             @click="changeChannel(index)"
           >
-            <a href="javascript:">{{channel}}</a>
+            <a href="javascript:">{{kingKong.text}}</a>
           </li>
         </ul>
       </div>
@@ -33,10 +33,10 @@
           <div 
             class="menu-item" 
             :class="{active:currentIndex === index}" 
-            v-for="(channel,index) in channels" 
+            v-for="(kingKong,index) in kingKongList" 
             :key="index" 
             @click="changeChannel(index)"
-          >{{channel}}</div>
+          >{{kingKong.text}}</div>
         </div>
       </div>
       
@@ -79,60 +79,18 @@
     </div>
     <div class="intro">
       <ul class="intro-list">
-        <li class="intro-item">
-          <i class="intro-icon"></i>
-          <span>网易自营品牌</span>
-        </li>
-        <li class="intro-item">
-          <i class="intro-icon"></i>
-          <span>30天无忧退货</span>
-        </li>
-        <li class="intro-item">
-          <i class="intro-icon"></i>
-          <span>48小时快速退款</span>
+        <li class="intro-item" v-for="(policyDesc,index) in policyDescList" :key="index">
+          <i class="intro-icon">
+            <img v-lazy="policyDesc.icon">
+          </i>
+          <span>{{policyDesc.desc}}</span>
         </li>
       </ul>
     </div>
     <div class="home-category">
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_1.png">
-        <p>新品首发</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_2.png">
-        <p>居家生活</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_3.png">
-        <p>服饰鞋包</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_4.png">
-        <p>美食酒水</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_5.png">
-        <p>个护清洁</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_6.png">
-        <p>母婴亲子</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_7.png">
-        <p>运动旅行</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_8.png">
-        <p>家电数码</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_9.png">
-        <p>全球特色</p>
-      </div>
-      <div class="home-category-item">
-        <img src="../../../static/images/first-view/category_10.gif">
-        <p>好货抄底</p>
+      <div class="home-category-item" v-for="(kingKong,index) in kingKongList" :key="index">
+        <img :src="kingKong.picUrl">
+        <p>{{kingKong.text}}</p>
       </div>
     </div>
     <img src="../../../static/images/first-view/flash-sale.gif" class="board">
@@ -156,8 +114,7 @@
   import Swiper from "swiper"
   import "swiper/css/swiper.min.css"
   import BScroll from '@better-scroll/core'
-
-  import { reqHomeData } from "../../api";
+  import { mapState } from "vuex";
   
   import FirstFloor from "./components/FirstFloor";
   import SecendFloor from "./components/SecendFloor";
@@ -176,18 +133,10 @@
     data (){
       return {
         currentIndex:0,
-        isShowMenu:true,
-        channels:['推荐','居家生活','服饰鞋包','美食酒水','个护清洁','母婴亲子','运动旅行','数码家电','全球特色']
+        isShowMenu:true
       }
     },
-    async mounted (){
-
-      const result = await reqHomeData()
-      if(result.code === 0){
-        console.log('数据太多，不会用')
-      }
-
-
+    mounted (){
       new Swiper('.home-swiper-container',{
         loop:true,
         autoplay:true,
@@ -201,6 +150,12 @@
       })
       
       this.changeChannel(0)
+    },
+    computed:{
+      ...mapState({
+        policyDescList:state => state.home.policyDescList,  //服务策略
+        kingKongList:state => state.home.kingKongList, //商品导航
+      })
     },
     methods:{
       showMenu (){
@@ -456,15 +411,12 @@
             display :inline-block;
             width :32px;
             height :32px;
-            background :url('../../../static/images/first-view/yi.png');
             background-size :100% 100%;
             margin-top: 2px;
-          }
-          &:nth-child(2) .intro-icon{
-            background-image :url('../../../static/images/first-view/dunpai.png');
-          }
-          &:nth-child(3) .intro-icon{
-            background-image :url('../../../static/images/first-view/qian.png');
+            img{
+              width:100%;
+              height:100%;
+            }
           }
           span{
             margin-left: 8px;

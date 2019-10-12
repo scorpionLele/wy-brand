@@ -7,6 +7,7 @@ import getters from "./getters"
 
 import home from "./modules/home";
 import category from "./modules/category";
+import goods from "./modules/goods";
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   getters,
   modules:{
     home,
-    category
+    category,
+    goods
   }
 })
